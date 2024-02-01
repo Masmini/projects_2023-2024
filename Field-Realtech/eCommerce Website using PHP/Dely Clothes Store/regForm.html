@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dely Stores: Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+       
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 28px;
+        }
+       
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: black;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 3px solid white;
+            color: white;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: white;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+            border: 3px solid red;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #ff0000;
+        }
+
+        p {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        p a {
+            color: #ff0000;
+            text-decoration: none;
+        }
+
+        p a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    
+    <h2>Create your Account</h2>
+    <form  id="registrationForm" action="reg.php" method="post">
+        <div>
+            <label  for="firstname">First Name:</label>
+            <input type="text" id="firstName" name="firstname"  pattern="[A-Za-z ']*" title="You can only use letters, space and apostrophe(')" required>
+        </div>
+
+        <div>
+            <label for="lastname">Lastname:</label>
+            <input type="text" id="lastName" name="lastname"  pattern="[A-Za-z ']*" title="please use only letters,space and apostrophe(')" required>
+        </div>
+
+        <div>
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email"  pattern="[a-z][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,4}" 
+             title="Please enter a correct email" required>
+        </div>
+        <div id="email-exists-message" style="color: red;"></div>
+
+
+
+
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="passcode" name="passcode" pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%?&]).{6,}$"
+            title="Password must be at least 8 characters, including at least one uppercase letter, one lowercase letter, one number and the at least the following symbols  @, $, !, %, ?, &:"
+            required>
+        </div>
+        
+      
+
+        <div>
+            <label for="mobile">Mobile Number(Tanzania):</label>
+            <input type="tel" id="mobile" name="mobile" placeholder="eg. +255799555555" pattern="\+255\d{9}"  title="please enter a valid  Tanzanian mobile number starting with +255..." required>
+        </div>
+
+        <div>
+            <input type="submit" value="Register" onclick="validatePassword()" >
+        </div>
+    </form>
+    <p>Already have an account? <a href="login.html">Log In</a></p>
+    
+
+    <script>
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('passcode');
+        const emailExistsMessage = document.getElementById('email-exists-message');
+        const registrationForm = document.getElementById('registrationForm');
+    
+        // Function to validate the password
+        function validatePassword() {
+            const password = passwordInput.value;
+    
+            // Password validation pattern (at least 8 characters, 1 uppercase, 1 lowercase, 1 number, and specific symbols)
+            const passwordPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%?&]).{8,}$/;
+    
+            if (!passwordPattern.test(password)) {
+                alert('Password must be at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and the following symbols: @, $, !, %, ?, &');
+                return false;
+            }
+    
+            return true;
+        }
+    
+        registrationForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+    
+            const email = emailInput.value;
+    
+            if (email.trim() !== '') {
+                const response = await fetch('check_email.php', {
+                    method: 'POST',
+                    body: JSON.stringify({ email }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+    
+                const data = await response.json();
+    
+                if (data.exists) {
+                    emailExistsMessage.textContent = 'Email is already taken. Please choose another email.';
+                } else {
+                    emailExistsMessage.textContent = '';
+    
+                    // Check password validation before submitting
+                    if (validatePassword()) {
+                        registrationForm.submit();
+                    }
+                }
+            }
+        });
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,1 @@
+Here, the contents are put in the htdocs folder of your XAMPP, then can be viewed by running the localhost servers. The file with extension .sql is the database used for this web app  which is imported into the localhost's phpmyAdmin

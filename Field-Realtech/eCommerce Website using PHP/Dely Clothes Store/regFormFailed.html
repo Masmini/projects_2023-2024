@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <script src="validation.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            color: #ff0000;
+            margin-top: 30px;
+            font-size: 28px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #caa1a1;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #ff0000;
+        }
+
+        p {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        p a {
+            color: #ff0000;
+            text-decoration: none;
+        }
+
+        p a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h2>User with the given email already exist,<br>please use another email.</h2>
+    <form  id="registrationForm" action="toDatabase.php" method="post">
+        <div>
+            <label for="firstname">First Name:</label>
+            <input type="text" id="firstName" name="firstname"  pattern="[A-Za-z ']*" title="You can only use letters, space and apostrophe(')" required>
+        </div>
+
+        <div>
+            <label for="lastname">Lastname:</label>
+            <input type="text" id="lastName" name="lastname"  pattern="[A-Za-z ']*" title="please use only letters,space and apostrophe(')" required>
+        </div>
+
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="passcode" name="passcode" pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%?&]).{6,}$"
+            title="Password must be at least 8 characters, including at least one uppercase letter, one lowercase letter, one number and the at least the following symbols  @, $, !, %, ?, &:"
+            required>
+        </div>
+        
+        <div>
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email"  pattern="[a-z][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,4}" 
+             title="Please enter a correct email" required>
+        </div>
+
+        <div>
+            <label for="mobile">Mobile Number(Tanzania):</label>
+            <input type="tel" id="mobile" name="mobile" placeholder="eg. +255799555555" pattern="\+255\d{9}"  title="please enter a valid  Tanzanian mobile number starting with +255..." required>
+        </div>
+
+        <div>
+            <label for="birthdate">Birthdate:</label>
+             <input type="date" id="bdate" name="birthdate" min="1908-08-02" max="2005-08-02" 
+             title="Please select a birthdate between 18 and 110 years ago." required>
+        </div>
+
+        <div>
+            <label for="gender">Gender:</label>
+            <label><input type="radio" name="gender" value="Male" required>Male</label> 
+            <label><input type="radio" name="gender" value="Female" required>Female</label>
+        </div>
+
+        <div>
+            <label for="address">Physical Address:</label>
+            <input type="text" id="address" name="p_address"  required>
+        </div>
+
+        <div>
+            <input type="submit" value="Register" onclick="validatePassword()" >
+        </div>
+    </form>
+    <p>Already have an account? <a href="login.html">Log In</a></p>
+    
+</body>
+</html>
